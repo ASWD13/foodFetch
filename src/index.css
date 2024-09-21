@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+ 
+}
+
+@font-face {
+  font-family: 'josefinSans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/public/font/JosefinSans-Regular.ttf) format('ttf');
+}
