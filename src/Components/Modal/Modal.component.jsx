@@ -12,7 +12,8 @@ const ModalComponent = ({ children, visible, setVisible }) => {
                 visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
             }`}
             style={{
-                backgroundColor: "rgba(0, 0, 0, 0.5)"
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 9999, 
             }}
         >
             <IoMdClose
