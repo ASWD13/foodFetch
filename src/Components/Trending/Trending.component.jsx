@@ -93,4 +93,4 @@ const TrendingComponent = () => {
   )
 }
 
-export default TrendingComponent
+export default TrendingComponent;
