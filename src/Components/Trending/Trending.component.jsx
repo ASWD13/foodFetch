@@ -4,7 +4,7 @@ import { appAxios } from "../../utils/apiConfig";
 import HomeBannerImg from "../../images/HomeBannerImg.jpg";
 import Banner1 from "../../images/Banner1.jpg";
 import Banner2 from "../../images/Banner2.jpg";
-const TrendingComponent = () => {
+const TrendingComponent = ({ locationDetails }) => {
   const [allRestarunts, setAllRestarunts] = useState([]);
 
   const getRestrauts = async () => {
@@ -12,7 +12,7 @@ const TrendingComponent = () => {
       data: { data },
     } = await appAxios.get("/restaurants", {
       params: {
-        populate: "*",
+        'filters[city][Name][$eqi]': locationDetails.city,
       },
     });
     setAllRestarunts(data);
@@ -31,7 +31,7 @@ const TrendingComponent = () => {
         >
           <img
             alt="gallery"
-            className="w-full object-center h-full object-center block opacity-50 absolute inset-0"
+            className="w-full object-center h-full object-cover block opacity-50 absolute inset-0"
             src={HomeBannerImg}
           />
           <div className="text-center relative z-10 w-full">

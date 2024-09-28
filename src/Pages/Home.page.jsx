@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { appAxios } from "../utils/apiConfig";
 import TrendingComponent from "../Components/Trending/Trending.component";
 
-function HomePage() {
+function HomePage({ locationDetails }) {
   const [pupularCities, setPupularCities] = useState([]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function HomePage() {
           </section>
         </div>
       </section>
-      <TrendingComponent />
+      <TrendingComponent locationDetails={locationDetails} />
     </>
   );
 }

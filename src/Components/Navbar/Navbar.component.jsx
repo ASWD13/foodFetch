@@ -92,7 +92,11 @@ function NavbarComponent() {
           )}
         </div>
 
-        <DialogContent className="h-full">
+        <DialogContent
+
+        // className="h-full"
+
+        >
           <h2 className="text-gray-900 text-3xl font-medium title-font mb-5 text-center">
             {authScreen == "login"
               ? "Welcome Back Foodiee🍕"
