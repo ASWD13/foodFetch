@@ -46,9 +46,7 @@ const TrendingComponent = () => {
                 <h2 className="text-xl text-white font-medium title-font mb-2">
                   Shooting Stars
                 </h2>
-                <p className="leading-relaxed">
-                  Sanskruti +1 mustache fixie paleo lumbersexual.
-                </p>
+                <p className="leading-relaxed">Sanskruti Restaurant</p>
                 <a className="mt-3 text-indigo-300 inline-flex items-center">
                   Learn More
                   <svg
