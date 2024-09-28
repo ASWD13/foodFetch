@@ -58,7 +58,7 @@ const TrendingComponent = () => {
         </div>
         <div>
           <h2 className="text-3xl text-center">
-            Trending Restaurents in your City
+            Find your Favourite Restaurant just one click away!
           </h2>
           <hr className="bg-black  mb-4" />
 
