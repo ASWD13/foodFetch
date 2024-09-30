@@ -1,5 +1,8 @@
 import { useState } from "react";
 import ModalComponent from "../Modal/Modal.component";
+import { GoSun } from "react-icons/go";
+import { IoIosMoon } from "react-icons/io";
+
 
 import { Button } from "../ui/button";
 
@@ -8,11 +11,18 @@ import { BiMenu } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import RegisterComponent from "../Auth/register.component";
 import { LoginComponent } from "../Auth/login.component";
+import { useTheme } from "next-themes";
 
 function NavbarComponent() {
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+
+  const theme = (localStorage.getItem("vite-ui-theme"));
+
+
   const [authScreen, setAuthScreen] = useState("login");
+  const { setTheme } = useTheme()
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -21,6 +31,7 @@ function NavbarComponent() {
   return (
     <>
       <Dialog>
+        {/* desktop mode  starts*/}
         <div className="  hidden md:flex p-4 bg-slate-900">
           <div className=" w-1/6 flex justify-center align-middle">
             <span className="ml-3 text-xl xl:block text-white">
@@ -31,7 +42,7 @@ function NavbarComponent() {
             <input
               type="text"
               placeholder="Search..."
-              className="p-2 rounded text-white focus:outline-none w-full "
+              className="p-2 rounded focus:outline-none w-full "
             />
           </div>
           <div className=" w-1/3 flex justify-center align-middle ">
@@ -39,7 +50,7 @@ function NavbarComponent() {
             <a className="p-2 hover:text-white text-white">Reservations</a>
             <a className="p-2 hover:text-white text-white">Contact Us</a>
           </div>
-          <div className=" w-1/6 flex justify-center align-middle ">
+          <div className=" w-1/6 flex justify-between items-center ">
             <DialogTrigger>
               <Button
                 variant="link"
@@ -49,8 +60,29 @@ function NavbarComponent() {
                 Login
               </Button>
             </DialogTrigger>
+            {theme === "light" ? <GoSun className="text-gray-50 cursor-pointer" onClick={
+
+              () => {
+                localStorage.setItem("vite-ui-theme", "dark")
+                window.location.reload()
+
+                setTheme("dark")
+              }} /> : <IoIosMoon className="cursor-pointer" onClick={() => {
+                localStorage.setItem("vite-ui-theme", "light")
+                setTheme("light")
+                window.location.reload()
+              }} />
+
+
+            }
+
+
+
           </div>
         </div>
+
+        {/* desktop mode  ends*/}
+
 
         <div className="bg-slate-900 md:hidden">
           <div className="flex justify-center p-4">
@@ -103,7 +135,7 @@ function NavbarComponent() {
               : "Lets Register🍰"}
           </h2>
           {authScreen == "login" ? <LoginComponent /> : <RegisterComponent />}
-          <p className="text-xs text-gray-500 ">
+          <p className="text-xs text-gray-700 text-center cursor-pointer ">
             {authScreen == "login" ? (
               <span onClick={() => setAuthScreen("register")}>
                 Click here to register your hunger🍔

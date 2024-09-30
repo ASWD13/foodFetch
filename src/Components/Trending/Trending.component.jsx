@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import HotelCardComponent from "./hotel.card.component";
 import { appAxios } from "../../utils/apiConfig";
@@ -7,20 +8,20 @@ import Banner2 from "../../images/Banner2.jpg";
 const TrendingComponent = ({ locationDetails }) => {
   const [allRestarunts, setAllRestarunts] = useState([]);
 
-  const getRestrauts = async () => {
+  const getRestrauts = async (city) => {
     const {
       data: { data },
     } = await appAxios.get("/restaurants", {
       params: {
-        'filters[city][Name][$eqi]': locationDetails.city,
+        'filters[city][Name][$eqi]': city,
       },
     });
     setAllRestarunts(data);
   };
 
   useEffect(() => {
-    getRestrauts();
-  }, []);
+    locationDetails?.city && getRestrauts(locationDetails?.city);
+  }, [locationDetails?.city]);
 
   return (
     <div className="container lg:px-5 py-10 mx-auto flex flex-wrap">

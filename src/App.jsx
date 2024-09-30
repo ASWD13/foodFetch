@@ -13,6 +13,9 @@ import { getUserLocation } from "./helpers/geolocation";
 export default function App() {
   const [location, setLocation] = useState();
   console.log('location: ', location);
+
+
+
   useEffect(() => {
     AOS.init(); // Initialize AOS
     getUserLocation(setLocation);
@@ -25,8 +28,6 @@ export default function App() {
     <>
       <NavbarComponent />
       <HomePage locationDetails={location} />
-
-
       <FooterComponent />
       <Toaster />
     </>

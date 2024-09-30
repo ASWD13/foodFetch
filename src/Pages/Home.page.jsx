@@ -17,7 +17,7 @@ function HomePage({ locationDetails }) {
     <>
       <section className="text-gray-400  body-font">
         <div>
-          <h2 className="title-font text-center font-medium sm:text-4xl py-3 text-3xl text-gray-900">
+          <h2 className="title-font text-center font-medium sm:text-4xl py-3 text-3xl dark:text-gray-200  text-gray-800">
             Craving? 🍜 We’ve got your favorites on the way 💖
           </h2>
           <hr />
@@ -31,10 +31,10 @@ function HomePage({ locationDetails }) {
                     data-aos="flip-left"
                     data-aos-duration="1500"
                   >
-                    <h2 className="title-font font-medium sm:text-3xl text-2xl text-gray-900">
+                    <h2 className="title-font font-medium sm:text-3xl text-2xl dark:text-gray-200 text-gray-900">
                       {city.attributes.Description}
                     </h2>
-                    <p className="leading-relaxed text-2xl">
+                    <p className="leading-relaxed dark:text-gray-400 text-2xl">
                       {city.attributes.Name}
                     </p>
                   </div>
