@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 
 const initialState = {
     theme: "system",
@@ -17,7 +17,6 @@ export function ThemeProvider({
     const [theme, setTheme] = useState(
         () => (localStorage.getItem(storageKey)) || defaultTheme
     )
-    console.log('theme: ', theme);
 
     useEffect(() => {
         const root = window.document.documentElement
