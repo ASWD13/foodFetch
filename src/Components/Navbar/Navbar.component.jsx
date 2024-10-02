@@ -18,12 +18,11 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "../ui/command"
 import { appAxios } from "../../utils/apiConfig";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavbarComponent() {
   const [showLogin, setShowLogin] = useState(false);
@@ -63,9 +62,12 @@ function NavbarComponent() {
         {/* desktop mode  starts*/}
         <div className="  hidden md:flex p-4 bg-slate-900">
           <div className=" w-1/6 flex justify-center align-middle">
-            <span className="ml-3 text-xl xl:block text-white">
-              {"</>"}Food_Fetch🥗
-            </span>
+            <Link to={"/"}>
+              <span className="ml-3 text-xl xl:block text-white">
+                {"</>"}Food_Fetch🥗
+              </span>
+
+            </Link>
           </div>
           <div className=" w-1/2 flex justify-center align-middle">
 
@@ -85,6 +87,7 @@ function NavbarComponent() {
                       <CommandItem key={res?.id} onClickCapture={() => {
                         navigate(`/product/${res.attributes.slug}`)
                         setQueryRes([])
+                        setQuery(res.attributes.Name)
                       }} >{res.attributes.Name}</CommandItem>
                     )
                     }

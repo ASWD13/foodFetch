@@ -25,8 +25,9 @@ export default function App() {
   return (
     <>
       <NavbarComponent />
-      <RootRouting />
-      {/* <HomePage locationDetails={location} /> */}
+      <div className="md:mx-24">
+        <RootRouting />
+      </div>
       <FooterComponent />
       <Toaster />
     </>
