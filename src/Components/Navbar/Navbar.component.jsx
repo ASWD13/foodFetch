@@ -6,17 +6,30 @@ import { IoIosMoon } from "react-icons/io";
 
 import { Button } from "../ui/button";
 
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { BiMenu } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import RegisterComponent from "../Auth/register.component";
 import { LoginComponent } from "../Auth/login.component";
 import { useTheme } from "next-themes";
 
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command"
+import { appAxios } from "../../utils/apiConfig";
+import { useNavigate } from "react-router-dom";
+
 function NavbarComponent() {
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [query, setQuery] = useState("")
+  const [queryRes, setQueryRes] = useState([])
 
   const theme = (localStorage.getItem("vite-ui-theme"));
 
@@ -28,6 +41,22 @@ function NavbarComponent() {
     setMenuOpen(!menuOpen);
   };
 
+  const handleSearch = async (e) => {
+    setQuery(e.target.value)
+
+    const { data: { data } } = e.target.value.length > 0 && await appAxios.get("/dishes",
+      {
+        params: {
+          "filters[Name][$contains]": query,
+        }
+      }
+
+    );
+    setQueryRes(data)
+  }
+
+  const navigate = useNavigate();
+
   return (
     <>
       <Dialog>
@@ -38,12 +67,32 @@ function NavbarComponent() {
               {"</>"}Food_Fetch🥗
             </span>
           </div>
-          <div className=" w-1/2 flex justify-center align-middle bg-yellow-800">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="p-2 rounded focus:outline-none w-full "
-            />
+          <div className=" w-1/2 flex justify-center align-middle">
+
+
+            <Command>
+              <input placeholder="serach for you favourate dish..." className="p-2 rounded focus:outline-none w-full text-black" value={query} onChange={(e) => {
+                handleSearch(e)
+
+              }} />
+              {query && queryRes?.length > 0 &&
+                <CommandList className="fixed bg-slate-800 w-[42%] top-14 rounded-lg z-10">
+                  <CommandEmpty>No results found.</CommandEmpty>
+
+                  <CommandGroup heading="results">
+                    {queryRes?.map((res) =>
+
+                      <CommandItem key={res?.id} onClickCapture={() => {
+                        navigate(`/product/${res.attributes.slug}`)
+                        setQueryRes([])
+                      }} >{res.attributes.Name}</CommandItem>
+                    )
+                    }
+                  </CommandGroup>
+                </CommandList>
+              }
+            </Command>
+
           </div>
           <div className=" w-1/3 flex justify-center align-middle ">
             <a className="p-2 hover:text-white text-white">Menu</a>
@@ -52,13 +101,7 @@ function NavbarComponent() {
           </div>
           <div className=" w-1/6 flex justify-between items-center ">
             <DialogTrigger>
-              <Button
-                variant="link"
-                className="text-white"
-                onClick={toggleMenu}
-              >
-                Login
-              </Button>
+              Login
             </DialogTrigger>
             {theme === "light" ? <GoSun className="text-gray-50 cursor-pointer" onClick={
 
@@ -129,13 +172,14 @@ function NavbarComponent() {
         // className="h-full"
 
         >
-          <h2 className="text-gray-900 text-3xl font-medium title-font mb-5 text-center">
+          <DialogTitle className=" text-3xl font-medium title-font mb-5 text-center">
+
             {authScreen == "login"
               ? "Welcome Back Foodiee🍕"
               : "Lets Register🍰"}
-          </h2>
+          </DialogTitle>
           {authScreen == "login" ? <LoginComponent /> : <RegisterComponent />}
-          <p className="text-xs text-gray-700 text-center cursor-pointer ">
+          <p className="text-xs  text-center cursor-pointer ">
             {authScreen == "login" ? (
               <span onClick={() => setAuthScreen("register")}>
                 Click here to register your hunger🍔

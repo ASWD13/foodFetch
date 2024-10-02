@@ -7,6 +7,7 @@ import FooterComponent from "./Components/Footer/Footer.component";
 import HomePage from "./Pages/Home.page";
 import { Toaster } from "./Components/ui/sonner"
 import { getUserLocation } from "./helpers/geolocation";
+import RootRouting from "./routes";
 
 
 
@@ -27,7 +28,8 @@ export default function App() {
   return (
     <>
       <NavbarComponent />
-      <HomePage locationDetails={location} />
+      <RootRouting />
+      {/* <HomePage locationDetails={location} /> */}
       <FooterComponent />
       <Toaster />
     </>
