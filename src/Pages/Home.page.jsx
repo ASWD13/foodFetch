@@ -9,14 +9,17 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../Components/ui/carousel"
+import { getUserLocation } from "../helpers/geolocation";
 
 
 
-function HomePage({ locationDetails }) {
+function HomePage() {
   const [pupularCities, setPupularCities] = useState([]);
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     getallCities();
+    getUserLocation(setLocation);
   }, []);
   const getallCities = async () => {
     const { data } = await appAxios.get("/cities");
@@ -75,7 +78,7 @@ function HomePage({ locationDetails }) {
           </section>
         </div>
       </section>
-      <TrendingComponent locationDetails={locationDetails} />
+      <TrendingComponent locationDetails={location} />
     </>
   );
 }
