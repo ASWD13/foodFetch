@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { appAxios } from "../utils/apiConfig";
 import { Button } from "../Components/ui/button";
+import { useSelector } from "react-redux";
 
 const PdpPage = () => {
   const [productDetails, setProductDetails] = useState();
   const [loading, setLoading] = useState(false)
 
   const { Name, Price, discount, Image, category, Description } =
-    productDetails || {};
+    productDetails?.attributes || {};
+  const userData = useSelector((state) => state.user)
+  console.log('userData: ', userData);
+
 
   const { slug } = useParams();
 
@@ -23,7 +27,7 @@ const PdpPage = () => {
           populate: "*",
         },
       });
-      setProductDetails(data?.[0]?.attributes);
+      setProductDetails(data?.[0]);
     } catch (error) {
       console.log("error: ", error);
     } finally {
@@ -46,6 +50,20 @@ const PdpPage = () => {
   if (!productDetails) {
 
     return <>somenthing went wrong</>
+  }
+
+  const addToCart = async () => {
+
+    const data = await appAxios.post("/carts", {
+      data: {
+        quantity: 1,
+        amount: discountedPrice,
+        dishes: productDetails?.id,
+        userID: userData?.user?.id
+
+      }
+    })
+    console.log('data: ', data.data);
   }
 
 
@@ -81,7 +99,7 @@ const PdpPage = () => {
 
           <br />
 
-          <Button>Add to cart</Button>
+          <Button onClick={addToCart} >Add to cart</Button>
         </div>
       </div>
 

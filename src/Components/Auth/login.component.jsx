@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { appAxios } from "../../utils/apiConfig"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
 import { CgSpinner } from "react-icons/cg"
+import { useDispatch } from "react-redux"
+import { setUser } from "../../store/features/user/userSlice"
+import { DialogContext } from "../../context/dialog.context"
 
 export const LoginComponent = () => {
+    const { setOpenDialog } = useContext(DialogContext)
 
     const [formValues, setFormValues] = useState({
         identifier: "",
@@ -12,7 +16,7 @@ export const LoginComponent = () => {
     })
 
     const [loading, setLoading] = useState(false)
-
+    const dispatch = useDispatch()
     const handleInput = (event) => {
 
         setFormValues((prev) => {
@@ -36,14 +40,15 @@ export const LoginComponent = () => {
                 }
             );
             toast("Hyyooo you have been logged in!!!")
-            localStorage.setItem("jwt", data.jwt)
-            console.log('data: ', data.jwt);
+            dispatch(setUser(data.user))
+            localStorage.setItem("accessToken", data?.jwt)
 
         } catch (error) {
             console.log('error: ', error);
             toast("smthing went wrong!!!")
 
         } finally {
+            setOpenDialog(false)
             setLoading(false)
         }
 

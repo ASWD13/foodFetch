@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ModalComponent from "../Modal/Modal.component";
 import { GoSun } from "react-icons/go";
 import { IoIosMoon } from "react-icons/io";
@@ -23,6 +23,8 @@ import {
 } from "../ui/command"
 import { appAxios } from "../../utils/apiConfig";
 import { Link, useNavigate } from "react-router-dom";
+import { DialogContext } from "../../context/dialog.context";
+import { useSelector } from "react-redux";
 
 function NavbarComponent() {
   const [showLogin, setShowLogin] = useState(false);
@@ -31,6 +33,13 @@ function NavbarComponent() {
   const [queryRes, setQueryRes] = useState([])
 
   const theme = (localStorage.getItem("vite-ui-theme"));
+
+  const userData = useSelector((state) => state.user)
+  console.log('userData: ', userData);
+
+
+
+  const { openDialog, setOpenDialog } = useContext(DialogContext)
 
 
   const [authScreen, setAuthScreen] = useState("login");
@@ -58,7 +67,7 @@ function NavbarComponent() {
 
   return (
     <>
-      <Dialog>
+      <Dialog open={openDialog}>
         {/* desktop mode  starts*/}
         <div className="  hidden md:flex p-4 bg-slate-900">
           <div className=" w-1/6 flex justify-center align-middle">
@@ -103,9 +112,10 @@ function NavbarComponent() {
             <a className="p-2 hover:text-white text-white">Contact Us</a>
           </div>
           <div className=" w-1/6 flex justify-between items-center ">
-            <DialogTrigger>
-              Login
-            </DialogTrigger>
+            {userData?.user?.email ? "Profile" :
+              <Button variant="ghost" onClick={() => setOpenDialog(true)}>
+                Login
+              </Button>}
             {theme === "light" ? <GoSun className="text-gray-50 cursor-pointer" onClick={
 
               () => {

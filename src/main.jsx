@@ -4,13 +4,21 @@ import App from './App.jsx'
 import './index.css'
 import { ThemeProvider } from './context/theme-provider.jsx'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './store/store.js'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </StrictMode>,
+
+  <StrictMode StrictMode >
+    <Provider store={store}>
+
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+
+      </ThemeProvider>
+    </Provider>
+  </StrictMode >,
 )

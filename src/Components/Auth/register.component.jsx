@@ -1,12 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "../ui/button"
 import { appAxios } from "../../utils/apiConfig"
 import { toast } from "sonner"
 import { CgSpinner } from "react-icons/cg"
+import { DialogContext } from "../../context/dialog.context"
 
 
 function RegisterComponent() {
-
+  const { setOpenDialog } = useContext(DialogContext)
 
   const [formValues, setFormValues] = useState({
     username: "",
@@ -44,13 +45,14 @@ function RegisterComponent() {
         }
       );
       toast("Hyyooo you have been registered!!!")
-      console.log('data: ', data);
+      localStorage.setItem("accessToken", data?.jwt)
 
     } catch (error) {
-      console.log('error: ', error);
-      toast("smthing went wrong!!!")
+      console.log('error: ', error?.response?.data?.error?.message);
+      toast("ERROR: " + error?.response?.data?.error?.message)
 
     } finally {
+      setOpenDialog(false)
       setLoading(false)
     }
 
