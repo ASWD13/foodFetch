@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ModalComponent from "../Modal/Modal.component";
 import { GoSun } from "react-icons/go";
 import { IoIosMoon } from "react-icons/io";
+import { MdOutlineShoppingCart } from "react-icons/md";
 
 
 import { Button } from "../ui/button";
@@ -12,6 +13,21 @@ import { CgClose } from "react-icons/cg";
 import RegisterComponent from "../Auth/register.component";
 import { LoginComponent } from "../Auth/login.component";
 import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "../ui/sheet"
+
 
 
 import {
@@ -24,7 +40,9 @@ import {
 import { appAxios } from "../../utils/apiConfig";
 import { Link, useNavigate } from "react-router-dom";
 import { DialogContext } from "../../context/dialog.context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/features/user/userSlice";
+import CartSideSheet from "./cart.sideSheet.component";
 
 function NavbarComponent() {
   const [showLogin, setShowLogin] = useState(false);
@@ -34,9 +52,9 @@ function NavbarComponent() {
 
   const theme = (localStorage.getItem("vite-ui-theme"));
 
-  const userData = useSelector((state) => state.user)
-  console.log('userData: ', userData);
-
+  const userData = useSelector((state) => state.user?.user)
+  console.log('userData: ~~~~~~~>', userData);
+  const dispatch = useDispatch()
 
 
   const { openDialog, setOpenDialog } = useContext(DialogContext)
@@ -65,9 +83,15 @@ function NavbarComponent() {
 
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken")
+    dispatch(setUser({}))
+  }
+
+
   return (
     <>
-      <Dialog open={openDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         {/* desktop mode  starts*/}
         <div className="  hidden md:flex p-4 bg-slate-900">
           <div className=" w-1/6 flex justify-center align-middle">
@@ -112,10 +136,35 @@ function NavbarComponent() {
             <a className="p-2 hover:text-white text-white">Contact Us</a>
           </div>
           <div className=" w-1/6 flex justify-between items-center ">
-            {userData?.user?.email ? "Profile" :
+            {userData?.email ? <DropdownMenu>
+              <DropdownMenuTrigger className="cursor-pointer">{userData?.username?.slice(0, 8)}
+                {userData?.username?.length > 7 ? "..." : ""}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent >
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer" >Profile</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" >Orders</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>LogOut</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu> :
               <Button variant="ghost" onClick={() => setOpenDialog(true)}>
                 Login
               </Button>}
+
+
+            <Sheet>
+              <SheetTrigger>
+                <div className="relative cursor-pointer">
+                  <span className="bg-green-600 p-1 rounded-full px-2 absolute  text-xs top-[-15px] right-[-5px]">3</span>
+                  <MdOutlineShoppingCart className="text-2xl" />
+                </div>
+              </SheetTrigger>
+              <SheetContent>
+                <CartSideSheet />
+              </SheetContent>
+            </Sheet>
+
             {theme === "light" ? <GoSun className="text-gray-50 cursor-pointer" onClick={
 
               () => {

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { appAxios } from "../utils/apiConfig";
 import { Button } from "../Components/ui/button";
 import { useSelector } from "react-redux";
+import { DialogContext } from "../context/dialog.context";
 
 const PdpPage = () => {
   const [productDetails, setProductDetails] = useState();
@@ -11,7 +12,8 @@ const PdpPage = () => {
   const { Name, Price, discount, Image, category, Description } =
     productDetails?.attributes || {};
   const userData = useSelector((state) => state.user)
-  console.log('userData: ', userData);
+  console.log('userData: ', userData.user.id);
+  const { setOpenDialog } = useContext(DialogContext)
 
 
   const { slug } = useParams();
@@ -40,7 +42,6 @@ const PdpPage = () => {
   }, [slug]);
 
   const discountedPrice = Price - (Price * discount) / 100;
-  console.log("discountedPrice: ", discountedPrice);
 
   if (loading) {
 
@@ -54,16 +55,22 @@ const PdpPage = () => {
 
   const addToCart = async () => {
 
-    const data = await appAxios.post("/carts", {
+
+    if (!userData?.user?.email) {
+      setOpenDialog(true)
+      return
+    }
+
+
+    await appAxios.post("/carts", {
       data: {
         quantity: 1,
         amount: discountedPrice,
         dishes: productDetails?.id,
-        userID: userData?.user?.id
-
+        userID: userData?.user?.id,
+        users_permissions_user: userData?.user?.id,
       }
     })
-    console.log('data: ', data.data);
   }
 
 
