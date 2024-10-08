@@ -5,6 +5,7 @@ import { appAxios } from "../../utils/apiConfig";
 import HomeBannerImg from "../../images/HomeBannerImg.jpg";
 import Banner1 from "../../images/Banner1.jpg";
 import Banner2 from "../../images/Banner2.jpg";
+import CustomTitle from "../ui/customTitle.component";
 const TrendingComponent = ({ locationDetails }) => {
   const [allRestarunts, setAllRestarunts] = useState([]);
 
@@ -14,6 +15,7 @@ const TrendingComponent = ({ locationDetails }) => {
     } = await appAxios.get("/restaurants", {
       params: {
         'filters[city][Name][$eqi]': city,
+        populate: "*"
       },
     });
     setAllRestarunts(data);
@@ -58,9 +60,8 @@ const TrendingComponent = ({ locationDetails }) => {
           </div>
         </div>
         <div>
-          <h2 className="text-3xl text-center">
-            Find your Favourite Restaurant just one click away!
-          </h2>
+
+          <CustomTitle title={"Find your Favourite Restaurant just one click away!"} />
           <hr className="bg-black  mb-4" />
 
           <div className="flex flex-wrap gap-8 justify-center">

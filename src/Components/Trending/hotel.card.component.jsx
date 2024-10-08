@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
+
 const HotelCardComponent = ({ hotelData }) => {
-    const { Name, Rating, Description, Address, Image: data } = hotelData;
+    const { Name, Rating, Description, Address, Image: data, slug } = hotelData;
     return (
-        <div className="border border-primary w-[250px] p-2" data-aos="zoom-in">
+        <Link className="border border-primary w-[250px] p-2" data-aos="zoom-in" to={"/restaurant/" + slug}>
             <img
                 src={
                     data?.data?.[0]?.attributes?.url ||
@@ -16,7 +18,7 @@ const HotelCardComponent = ({ hotelData }) => {
             <p>{Description}</p>
             <p>{Address}</p>
             <p>⭐{Rating}/5</p>
-        </div>
+        </Link>
     );
 };
 

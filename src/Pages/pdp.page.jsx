@@ -4,6 +4,7 @@ import { appAxios } from "../utils/apiConfig";
 import { Button } from "../Components/ui/button";
 import { useSelector } from "react-redux";
 import { DialogContext } from "../context/dialog.context";
+import { getDiscountedPrice } from "../helpers";
 
 const PdpPage = () => {
   const [productDetails, setProductDetails] = useState();
@@ -12,7 +13,6 @@ const PdpPage = () => {
   const { Name, Price, discount, Image, category, Description } =
     productDetails?.attributes || {};
   const userData = useSelector((state) => state.user)
-  console.log('userData: ', userData.user.id);
   const { setOpenDialog } = useContext(DialogContext)
 
 
@@ -41,7 +41,9 @@ const PdpPage = () => {
     getProductDetails(slug);
   }, [slug]);
 
-  const discountedPrice = Price - (Price * discount) / 100;
+
+  const discountedPrice = getDiscountedPrice(Price, discount)
+
 
   if (loading) {
 

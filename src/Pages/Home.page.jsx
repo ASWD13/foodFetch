@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "../Components/ui/carousel"
 import { getUserLocation } from "../helpers/geolocation";
+import CustomTitle from "../Components/ui/customTitle.component";
 
 
 
@@ -30,10 +31,7 @@ function HomePage() {
     <>
       <section className="text-gray-400  body-font">
         <div>
-          <h2 className="title-font text-center font-medium sm:text-4xl py-3 text-3xl dark:text-gray-200  text-gray-800">
-            Craving? 🍜 We’ve got your favorites on the way 💖
-          </h2>
-          <hr />
+          <CustomTitle title={"Craving? 🍜 We’ve got your favorites on the way 💖"} />
           <section className="text-gray-600 body-font">
             <div className="container py-5 mx-auto">
               <div className="mx-16">

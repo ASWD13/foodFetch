@@ -131,9 +131,9 @@ function NavbarComponent() {
 
           </div>
           <div className=" w-1/3 flex justify-center align-middle ">
-            <a className="p-2 hover:text-white text-white">Menu</a>
-            <a className="p-2 hover:text-white text-white">Reservations</a>
-            <a className="p-2 hover:text-white text-white">Contact Us</a>
+            <Link to={"/"} className="p-2 hover:text-white text-white"> Menu</Link>
+            <Link to={"/"} className="p-2 hover:text-white text-white"> Reservations</Link>
+            <Link to={"/contact-us"} className="p-2 hover:text-white text-white"> Contact Us</Link>
           </div>
           <div className=" w-1/6 flex justify-between items-center ">
             {userData?.email ? <DropdownMenu>
