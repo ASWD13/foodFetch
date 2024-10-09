@@ -62,7 +62,6 @@ const TrendingComponent = ({ locationDetails }) => {
         <div>
 
           <CustomTitle title={"Find your Favourite Restaurant just one click away!"} />
-          <hr className="bg-black  mb-4" />
 
           <div className="flex flex-wrap gap-8 justify-center">
             {allRestarunts?.map((hotel) => {

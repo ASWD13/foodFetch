@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const appAxios = axios.create({
-  baseURL: BASE_URL,
+  baseURL: "http://localhost:1337/api", // BASE_URL,
 });
 
 const excludeAuthRoutes = ["/auth/local", "/auth/local/register"];

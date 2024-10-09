@@ -53,7 +53,6 @@ function NavbarComponent() {
   const theme = (localStorage.getItem("vite-ui-theme"));
 
   const userData = useSelector((state) => state.user?.user)
-  console.log('userData: ~~~~~~~>', userData);
   const dispatch = useDispatch()
 
 
@@ -132,7 +131,7 @@ function NavbarComponent() {
           </div>
           <div className=" w-1/3 flex justify-center align-middle ">
             <Link to={"/"} className="p-2 hover:text-white text-white"> Menu</Link>
-            <Link to={"/"} className="p-2 hover:text-white text-white"> Reservations</Link>
+            <Link to={"/categories"} className="p-2 hover:text-white text-white"> Categories</Link>
             <Link to={"/contact-us"} className="p-2 hover:text-white text-white"> Contact Us</Link>
           </div>
           <div className=" w-1/6 flex justify-between items-center ">

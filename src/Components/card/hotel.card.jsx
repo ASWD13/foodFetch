@@ -24,7 +24,7 @@ const DishCard = ({ singleDish }) => {
 
             <h2 className="text-3xl">{singleDish?.attributes?.Name}</h2>
 
-            <h2 className="text-2xl text-green-700">
+            <h2 className="text-2xl  text-green-700">
                 ₹{discountedPrice}/-{" "}
                 <span className="text-xl text-red-800 line-through">₹{singleDish?.attributes?.Price}</span>{" "}
                 <span className="text-xl text-white">{singleDish?.attributes?.discount}%off</span>{" "}
