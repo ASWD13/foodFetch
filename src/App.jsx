@@ -12,6 +12,7 @@ import { DialogContext } from "./context/dialog.context";
 
 export default function App() {
   const [openDialog, setOpenDialog] = useState(false)
+  const [openCart, setOpenCart] = useState(false)
 
 
 
@@ -25,7 +26,7 @@ export default function App() {
 
   return (
     <>
-      <DialogContext.Provider value={{ openDialog, setOpenDialog }}>
+      <DialogContext.Provider value={{ openDialog, setOpenDialog, openCart, setOpenCart }}>
         <NavbarComponent />
         <div className="md:mx-24">
           <RootRouting />

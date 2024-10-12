@@ -5,6 +5,7 @@ import { Button } from "../Components/ui/button";
 import { useSelector } from "react-redux";
 import { DialogContext } from "../context/dialog.context";
 import { getDiscountedPrice } from "../helpers";
+import { toast } from "sonner";
 
 const PdpPage = () => {
   const [productDetails, setProductDetails] = useState();
@@ -13,7 +14,7 @@ const PdpPage = () => {
   const { Name, Price, discount, Image, category, Description } =
     productDetails?.attributes || {};
   const userData = useSelector((state) => state.user)
-  const { setOpenDialog } = useContext(DialogContext)
+  const { setOpenDialog, setOpenCart } = useContext(DialogContext)
 
 
   const { slug } = useParams();
@@ -72,7 +73,10 @@ const PdpPage = () => {
         userID: userData?.user?.id,
         users_permissions_user: userData?.user?.id,
       }
-    })
+    }).then(() => {
+      toast("added to cart")
+      setOpenCart(true)
+    }).catch(() => toast("something went wrong"))
   }
 
 

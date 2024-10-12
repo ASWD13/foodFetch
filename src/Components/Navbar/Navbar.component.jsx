@@ -56,7 +56,7 @@ function NavbarComponent() {
   const dispatch = useDispatch()
 
 
-  const { openDialog, setOpenDialog } = useContext(DialogContext)
+  const { openDialog, setOpenDialog, openCart, setOpenCart } = useContext(DialogContext)
 
 
   const [authScreen, setAuthScreen] = useState("login");
@@ -152,7 +152,7 @@ function NavbarComponent() {
               </Button>}
 
 
-            <Sheet>
+            <Sheet open={openCart} onOpenChange={setOpenCart}>
               <SheetTrigger>
                 <div className="relative cursor-pointer">
                   <span className="bg-green-600 p-1 rounded-full px-2 absolute  text-xs top-[-15px] right-[-5px]">3</span>

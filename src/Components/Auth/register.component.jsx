@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { useContext, useState } from "react"
 import { Button } from "../ui/button"
 import { appAxios } from "../../utils/apiConfig"
@@ -7,6 +8,8 @@ import { DialogContext } from "../../context/dialog.context"
 
 
 function RegisterComponent() {
+  const [errorMsg, setErrorMsg] = useState("")
+
   const { setOpenDialog } = useContext(DialogContext)
 
   const [formValues, setFormValues] = useState({
@@ -19,6 +22,7 @@ function RegisterComponent() {
   const [loading, setLoading] = useState(false)
 
   const handleInput = (event) => {
+    setErrorMsg('');
 
     setFormValues((prev) => {
       return {
@@ -33,6 +37,23 @@ function RegisterComponent() {
 
 
   const registerUser = async () => {
+    const filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!formValues.username || !formValues.email || !formValues.password || !formValues.cPassword) {
+      setErrorMsg("hey none of the fields should be empty")
+      return
+    }
+
+
+    if (!filter.test(formValues.email)) {
+      setErrorMsg('Please provide a valid email address');
+      return false;
+    }
+
+    if (formValues.password !== formValues.cPassword) {
+      setErrorMsg("Password and Confirm password should be same")
+      return
+    }
     try {
       setLoading(true)
       const { data } = await appAxios.post("/auth/local/register",
@@ -79,6 +100,7 @@ function RegisterComponent() {
           <label htmlFor="cPassword" className="leading-7 text-sm text-gray-600">Confirm Password</label>
           <input onChange={(e) => handleInput(e)} type="password" value={formValues.cPassword} id="cPassword" name="cPassword" className="w-full bg-white rounded border border-gray-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
+        <span className="text-red-600">{errorMsg}</span>
         <Button className="text-white" size="lg" disabled={loading} onClick={() => { registerUser() }}>Register
 
 
