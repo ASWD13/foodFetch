@@ -1,13 +1,15 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SheetDescription, SheetHeader, SheetTitle } from "../ui/sheet";
 import { appAxios } from "../../utils/apiConfig";
+import { MdDelete } from "react-icons/md";
+import { getDiscountedPrice } from "../../helpers";
+
 
 const CartSideSheet = () => {
-
-    const userData = useSelector((state) => state.user.user)
-    const cartData = useSelector((state) => state.cart.cart)
-    console.log('cartData: ', cartData);
+    const [cartData, setCartData] = useState();
+    const userData = useSelector((state) => state.user.user);
+    console.log("cartData: ", cartData);
 
     const getCartDetails = async () => {
         const {
@@ -15,33 +17,46 @@ const CartSideSheet = () => {
         } = await appAxios.get("/carts", {
             params: {
                 "filters[userID][$eq]": userData.id,
-                populate: "*",
+                populate: "deep",
             },
         });
-        console.log('data: ', data);
-        // setProductDetails(data?.[0]);
-    }
-
-
-
-
+        setCartData(data);
+    };
 
     useEffect(() => {
-
-        getCartDetails()
-    }, [])
-
-
+        getCartDetails();
+    }, []);
 
     // console.log('cartData: ', cartData);
     return (
-        <div>
+        <div className="" >
             <SheetHeader>
                 <SheetTitle className="text-3xl"> My Cart</SheetTitle>
-                <SheetDescription>
-                    This action cannot be undone. This will permanently delete your
-                    account and remove your data from our servers.
-                </SheetDescription>
+                <SheetDescription>Info Related to your cart</SheetDescription>
+
+                <div className=" ">
+                    {cartData?.map((cart) => {
+                        const { Name, Image, Price, discount } = cart.attributes?.dishes?.data?.[0]?.attributes || {}
+                        const discountedPrice = getDiscountedPrice(Price, discount);
+                        return (
+                            <div className="flex gap-4  items-center" key={cart.id}>
+                                <div>
+                                    <img
+                                        className="w-24 rounded-2xl"
+                                        src={
+                                            Image?.data?.[0]?.attributes?.url
+                                        }
+                                        alt=""
+                                    />
+                                </div>
+                                <div>{Name}</div>
+                                <div>{discountedPrice}*{cart.attributes?.quantity} = ₹{cart.attributes?.amount}</div>
+                                <div><MdDelete className="text-destructive cursor-pointer" onClick={() => alert("sdfsdf")} />
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
             </SheetHeader>
         </div>
     );

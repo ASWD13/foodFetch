@@ -53,6 +53,8 @@ function NavbarComponent() {
   const theme = (localStorage.getItem("vite-ui-theme"));
 
   const userData = useSelector((state) => state.user?.user)
+  const cartData = useSelector((state) => state.cart.cart);
+
   const dispatch = useDispatch()
 
 
@@ -87,7 +89,7 @@ function NavbarComponent() {
     dispatch(setUser({}))
   }
 
-
+  Object.values(cartData)?.length
   return (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -155,11 +157,11 @@ function NavbarComponent() {
             <Sheet open={openCart} onOpenChange={setOpenCart}>
               <SheetTrigger>
                 <div className="relative cursor-pointer">
-                  <span className="bg-green-600 p-1 rounded-full px-2 absolute  text-xs top-[-15px] right-[-5px]">3</span>
+                  <span className="bg-green-600 p-1 rounded-full px-2 absolute  text-xs top-[-15px] right-[-5px]">{Object.values(cartData)?.length}</span>
                   <MdOutlineShoppingCart className="text-2xl" />
                 </div>
               </SheetTrigger>
-              <SheetContent>
+              <SheetContent className="min-w-[550px]"  >
                 <CartSideSheet />
               </SheetContent>
             </Sheet>
