@@ -5,12 +5,15 @@ import { appAxios } from "../../utils/apiConfig"
 import { toast } from "sonner"
 import { CgSpinner } from "react-icons/cg"
 import { DialogContext } from "../../context/dialog.context"
+import { setUser } from "../../store/features/user/userSlice"
+import { useDispatch } from "react-redux"
 
 
 function RegisterComponent() {
   const [errorMsg, setErrorMsg] = useState("")
 
   const { setOpenDialog } = useContext(DialogContext)
+  const dispatch = useDispatch()
 
   const [formValues, setFormValues] = useState({
     username: "",
@@ -66,6 +69,7 @@ function RegisterComponent() {
         }
       );
       toast("Hyyooo you have been registered!!!")
+      dispatch(setUser(data.user))
       localStorage.setItem("accessToken", data?.jwt)
 
     } catch (error) {

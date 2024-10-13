@@ -2,18 +2,22 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { appAxios } from "../utils/apiConfig";
 import { Button } from "../Components/ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogContext } from "../context/dialog.context";
 import { getDiscountedPrice } from "../helpers";
 import { toast } from "sonner";
+import { addToCart as addToCartSlice } from "../store/features/cart/cartSlice";
 
 const PdpPage = () => {
   const [productDetails, setProductDetails] = useState();
   const [loading, setLoading] = useState(false)
 
+  const dispatch = useDispatch()
+
+
   const { Name, Price, discount, Image, category, Description } =
     productDetails?.attributes || {};
-  const userData = useSelector((state) => state.user)
+  const userData = useSelector((state) => state.user.user)
   const { setOpenDialog, setOpenCart } = useContext(DialogContext)
 
 
@@ -59,7 +63,7 @@ const PdpPage = () => {
   const addToCart = async () => {
 
 
-    if (!userData?.user?.email) {
+    if (!userData?.email) {
       setOpenDialog(true)
       return
     }
@@ -70,13 +74,16 @@ const PdpPage = () => {
         quantity: 1,
         amount: discountedPrice,
         dishes: productDetails?.id,
-        userID: userData?.user?.id,
-        users_permissions_user: userData?.user?.id,
+        userID: userData?.id,
+        users_permissions_user: userData?.id,
       }
-    }).then(() => {
+    }).then((cartData) => {
       toast("added to cart")
       setOpenCart(true)
+      console.log('cartData: ', cartData?.data?.data);
+      dispatch(addToCartSlice({ ...cartData?.data?.data, dishId: productDetails?.id }))
     }).catch(() => toast("something went wrong"))
+
   }
 
 

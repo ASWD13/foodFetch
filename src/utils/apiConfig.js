@@ -8,7 +8,6 @@ export const appAxios = axios.create({
 
 const excludeAuthRoutes = ["/auth/local", "/auth/local/register"];
 const token = localStorage.getItem("accessToken");
-
 appAxios.interceptors.request.use(
   (config) => {
     const isNotSSO = excludeAuthRoutes.some((route) =>
